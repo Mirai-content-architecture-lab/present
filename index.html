@@ -44,12 +44,14 @@
   }
 
   /* ===== セクション見出し ===== */
+  .lib-section{margin-bottom:58px}
+  .lib-section:last-of-type{margin-bottom:0}
   .section-label{display:flex;align-items:center;gap:20px;margin:30px 0 40px}
-  .section-label .en{font-family:var(--serif-en);font-weight:600;font-size:18px;letter-spacing:.32em;text-transform:uppercase;color:var(--accent)}
-  .section-label .ja{font-family:var(--mincho);font-weight:500;font-size:13px;letter-spacing:.16em;color:var(--body)}
+  .section-label .en{font-family:var(--serif-en);font-weight:600;font-size:18px;letter-spacing:.32em;text-transform:uppercase;color:var(--accent);white-space:nowrap}
+  .section-label .ja{font-family:var(--mincho);font-weight:500;font-size:13px;letter-spacing:.16em;color:var(--body);white-space:nowrap}
   .section-label::before,.section-label::after{content:"";height:1px;background:var(--line)}
   .section-label::after{flex:1}
-  .section-label .count{font-family:var(--serif-en);font-weight:600;font-size:14px;letter-spacing:.1em;color:var(--muted)}
+  .section-label .count{font-family:var(--serif-en);font-weight:600;font-size:14px;letter-spacing:.1em;color:var(--muted);white-space:nowrap}
 
   /* ===== カード ===== */
   .grid{display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr;gap:42px 26px}
@@ -122,12 +124,7 @@
   </header>
 
   <div class="wrap">
-    <div class="section-label">
-      <span class="en">Free Library</span>
-      <span class="ja">無料ダウンロード</span>
-      <span class="count" id="count"></span>
-    </div>
-    <main class="grid" id="grid" aria-live="polite"></main>
+    <div id="sections" aria-live="polite"></div>
 
     <footer>
       <span class="brand">MIRAI &mdash; Content Architecture Lab</span>
@@ -138,58 +135,67 @@
 <script>
   /* =========================================================
      ▼ ここを編集するだけで配布物を増やせます ▼
+       各セクション（段）= { en, ja, items:[...] }
+       items の各項目：
        icon/color : 表紙が読み込めないときの代替アイコンと背景色
        cover : 表紙画像（covers/●●.jpg）
        tag/title/desc/size : 表示テキスト
        type : "pdf"（DL） / "link"（別ページ）  href : 場所/URL  name : DL時のファイル名
      ---- 表紙の作り直しは秘書に「表紙を作り直して」でOK ----
      ========================================================= */
-  const ITEMS = [
+  const SECTIONS = [
     {
-      icon:"📈", color:"#9b2c39", cover:"covers/01.jpg", tag:"5分で理解",
-      title:"【5分で理解】スモールビジネス設計法",
-      desc:"小さく始めて確実に伸ばす。スモールビジネスの全体設計図を、まず5分でつかめる入門書です。",
-      type:"pdf", href:"files/01-small-business.pdf", name:"①【5分で理解】スモールビジネス設計法.pdf", size:"PDF・23MB"
+      en:"Five-Minute Series", ja:"5分で理解シリーズ",
+      items:[
+        {
+          icon:"📈", color:"#9b2c39", cover:"covers/01.jpg", tag:"5分で理解",
+          title:"【5分で理解】スモールビジネス設計法",
+          desc:"小さく始めて確実に伸ばす。スモールビジネスの全体設計図を、まず5分でつかめる入門書です。",
+          type:"pdf", href:"files/01-small-business.pdf", name:"①【5分で理解】スモールビジネス設計法.pdf", size:"PDF・23MB"
+        },
+        {
+          icon:"🔥", color:"#b45309", cover:"covers/02.jpg", tag:"5分で理解",
+          title:"【5分で理解】未来式サイドFIRE設計法",
+          desc:"働き方に縛られず、副収入で自由をつくる“サイドFIRE”の考え方と設計手順を凝縮しました。",
+          type:"pdf", href:"files/02-side-fire.pdf", name:"②【5分で理解】未来式サイドFIRE設計法.pdf", size:"PDF・6.8MB"
+        },
+        {
+          icon:"🤖", color:"#1f6f53", cover:"covers/03.jpg", tag:"5分で理解",
+          title:"【5分で理解】未来式AI活用術",
+          desc:"AIを“使いこなす側”へ。仕事と発信を効率化する実践的な活用術を、5分でつかめます。",
+          type:"pdf", href:"files/03-ai-mastery.pdf", name:"③【5分で理解】未来式AI活用術.pdf", size:"PDF・4.8MB"
+        },
+        {
+          icon:"🏠", color:"#A17D45", cover:"covers/07.jpg", tag:"5分で理解",
+          title:"【5分で理解】未来式不動産投資術",
+          desc:"新NISAのその先へ。不動産で「自由と快適」を設計するための全体構造を、まず5分でつかめます。",
+          type:"pdf", href:"files/07-real-estate.pdf", name:"【5分で理解】未来式不動産投資術.pdf", size:"PDF・19MB"
+        }
+      ]
     },
     {
-      icon:"🔥", color:"#b45309", cover:"covers/02.jpg", tag:"5分で理解",
-      title:"【5分で理解】未来式サイドFIRE設計法",
-      desc:"働き方に縛られず、副収入で自由をつくる“サイドFIRE”の考え方と設計手順を凝縮しました。",
-      type:"pdf", href:"files/02-side-fire.pdf", name:"②【5分で理解】未来式サイドFIRE設計法.pdf", size:"PDF・6.8MB"
-    },
-    {
-      icon:"🤖", color:"#1f6f53", cover:"covers/03.jpg", tag:"5分で理解",
-      title:"【5分で理解】未来式AI活用術",
-      desc:"AIを“使いこなす側”へ。仕事と発信を効率化する実践的な活用術を、5分でつかめます。",
-      type:"pdf", href:"files/03-ai-mastery.pdf", name:"③【5分で理解】未来式AI活用術.pdf", size:"PDF・4.8MB"
-    },
-    {
-      icon:"💎", color:"#0f6f6a", cover:"covers/05.jpg", tag:"特別レポート",
-      title:"凡人が0から1億円を設計した5つのルール",
-      desc:"特別な才能がなくても再現できる。ゼロから1億円を設計するために守った5つのルールを公開します。",
-      type:"pdf", href:"files/05-five-rules.pdf", name:"⑤凡人が0から1億円を設計した5つのルール.pdf", size:"PDF・4.2MB"
-    },
-    {
-      icon:"🧭", color:"#0C1E38", cover:"covers/mind4.jpg", tag:"マインド",
-      title:"マインド移住計画",
-      desc:"うまくいく人の思考のOSへ引っ越す。行動が自然と変わるマインドの整え方をまとめました。",
-      type:"pdf", href:"files/04-mind-migration.pdf", name:"④【マインド移住計画】.pdf", size:"PDF・1.3MB"
-    },
-    {
-      icon:"💭", color:"#2BA6C9", cover:"covers/06d.jpg", tag:"お金の哲学",
-      title:"今、挑戦しようとしているあなたへ",
-      desc:"稼ぐノウハウも、起業スクールも、高額セミナーも、いったん手放してください。その手前にある“お金の正体”を知るために——24歳の頃に綴った、お金の哲学です。",
-      type:"pdf", href:"files/06-challenge.pdf", name:"今挑戦しようとしているあなたへ.pdf", size:"PDF・5.3MB"
-    },
-
-    /* ▼▼ 追加の特典／診断ツールを足すときの例（//を外して使う）▼▼
-    {
-      icon:"🧪", color:"#2A62B8", tag:"診断ツール",
-      title:"複利マップ問診票",
-      desc:"いくつかの質問に答えるだけで、今のお金の地図が見える無料の診断ツールです。",
-      type:"link", href:"https://fukurinochizuya-monshinhyo.netlify.app"
-    },
-    ▲▲ ここまで ▲▲ */
+      en:"Special Reports", ja:"特別レポート",
+      items:[
+        {
+          icon:"💎", color:"#0f6f6a", cover:"covers/05.jpg", tag:"特別レポート",
+          title:"凡人が0から1億円を設計した5つのルール",
+          desc:"特別な才能がなくても再現できる。ゼロから1億円を設計するために守った5つのルールを公開します。",
+          type:"pdf", href:"files/05-five-rules.pdf", name:"⑤凡人が0から1億円を設計した5つのルール.pdf", size:"PDF・4.2MB"
+        },
+        {
+          icon:"🧭", color:"#0C1E38", cover:"covers/mind4.jpg", tag:"マインド",
+          title:"マインド移住計画",
+          desc:"うまくいく人の思考のOSへ引っ越す。行動が自然と変わるマインドの整え方をまとめました。",
+          type:"pdf", href:"files/04-mind-migration.pdf", name:"④【マインド移住計画】.pdf", size:"PDF・1.3MB"
+        },
+        {
+          icon:"💭", color:"#2BA6C9", cover:"covers/06d.jpg", tag:"お金の哲学",
+          title:"今、挑戦しようとしているあなたへ",
+          desc:"稼ぐノウハウも、起業スクールも、高額セミナーも、いったん手放してください。その手前にある“お金の正体”を知るために——24歳の頃に綴った、お金の哲学です。",
+          type:"pdf", href:"files/06-challenge.pdf", name:"今挑戦しようとしているあなたへ.pdf", size:"PDF・5.3MB"
+        }
+      ]
+    }
   ];
 
   /* ---- 描画処理（触らなくてOK）---- */
@@ -200,7 +206,7 @@
   function coverHTML(it){
     const fb = `<div class="cover-fallback" style="background:${(it.color||'#cccccc')}1f">${it.icon||"📄"}</div>`;
     if(!it.cover) return fb;
-    return `<img class="cover-img" src="${esc(it.cover)}?v=4" alt="${esc(it.title)} の表紙" loading="lazy"
+    return `<img class="cover-img" src="${esc(it.cover)}?v=5" alt="${esc(it.title)} の表紙" loading="lazy"
               onerror="this.style.display='none';this.nextElementSibling.style.display='grid';">
             <div class="cover-fallback" style="display:none;background:${(it.color||'#cccccc')}1f">${it.icon||"📄"}</div>`;
   }
@@ -221,8 +227,15 @@
       </div>
     </article>`;
   }
-  document.getElementById("grid").innerHTML = ITEMS.map(cardHTML).join("");
-  document.getElementById("count").textContent = ITEMS.length + "点";
+  let __n = 0;
+  function sectionHTML(s){
+    const cards = s.items.map((it)=>cardHTML(it, __n++)).join("");
+    return `<section class="lib-section">
+      <div class="section-label"><span class="en">${esc(s.en)}</span><span class="ja">${esc(s.ja)}</span><span class="count">${s.items.length}点</span></div>
+      <main class="grid">${cards}</main>
+    </section>`;
+  }
+  document.getElementById("sections").innerHTML = SECTIONS.map(sectionHTML).join("");
 
   /* ===== 合言葉（パスワード）ゲート ===== */
   const GATE_PASSWORD = "2026";   /* ← 合言葉。ここを書き換えるだけで変更できます */
