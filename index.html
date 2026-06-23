@@ -206,14 +206,14 @@
   function coverHTML(it){
     const fb = `<div class="cover-fallback" style="background:${(it.color||'#cccccc')}1f">${it.icon||"📄"}</div>`;
     if(!it.cover) return fb;
-    return `<img class="cover-img" src="${esc(it.cover)}?v=5" alt="${esc(it.title)} の表紙" loading="lazy"
+    return `<img class="cover-img" src="${esc(it.cover)}?v=6" alt="${esc(it.title)} の表紙" loading="lazy"
               onerror="this.style.display='none';this.nextElementSibling.style.display='grid';">
             <div class="cover-fallback" style="display:none;background:${(it.color||'#cccccc')}1f">${it.icon||"📄"}</div>`;
   }
   function cardHTML(it,i){
     const isPdf = it.type !== "link";
     const btn = isPdf
-      ? `<a class="btn" href="${esc(it.href)}" download="${esc(it.name||'')}">${DL_ICON}ダウンロード</a>`
+      ? `<a class="btn" href="${esc(it.href)}?v=6" download="${esc(it.name||'')}">${DL_ICON}ダウンロード</a>`
       : `<a class="btn alt" href="${esc(it.href)}" target="_blank" rel="noopener">${LINK_ICON}ひらく</a>`;
     const n = String(i+1).padStart(2,"0");
     return `<article class="card">
