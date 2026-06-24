@@ -11,9 +11,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Shippori+Mincho:wght@400;500;600&family=Noto+Sans+JP:wght@200;300;400&display=swap" rel="stylesheet">
 <style>
   :root{
-    --paper:#F4F1E9; --paper-soft:#F0ECE2; --card:#FCFAF5;
-    --ink:#211F1A; --ink-2:#3A362D; --body:#65604F; --muted:#A8A08D;
-    --line:#E6E0D2; --line-2:#D9D2C1; --accent:#8C7C61;
+    --paper:#EFF2F1; --paper-soft:#E7EDEB; --card:#FBFCFB;
+    --ink:#1E2422; --ink-2:#333A38; --body:#5C6360; --muted:#99A3A0;
+    --line:#DCE5E3; --line-2:#CCD8D5; --accent:#8C7C61;
     --mincho:'Shippori Mincho',serif; --serif-en:'Cormorant Garamond',serif; --sans:'Noto Sans JP',sans-serif;
   }
   *{box-sizing:border-box;margin:0;padding:0}
@@ -26,9 +26,15 @@
   .wrap{max-width:980px;margin:0 auto;padding:0 34px}
 
   /* ===== HERO ===== */
-  .hero{text-align:center;position:relative;overflow:hidden;background:#163E48}
-  .hero::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:150px;z-index:1;background:linear-gradient(180deg,rgba(22,62,72,0) 0%,var(--paper) 95%);pointer-events:none}
-  .hero-inner{position:relative;z-index:2;max-width:680px;margin:0 auto;padding:116px 28px 178px}
+  .hero{text-align:center;position:relative;overflow:hidden;
+    background:
+      radial-gradient(112% 72% at 50% -6%, rgba(50,128,148,.5) 0%, rgba(50,128,148,0) 50%),
+      radial-gradient(78% 62% at 12% 8%, rgba(11,32,43,.55) 0%, rgba(11,32,43,0) 55%),
+      radial-gradient(82% 62% at 88% 13%, rgba(13,40,52,.5) 0%, rgba(13,40,52,0) 52%),
+      radial-gradient(108% 86% at 50% 119%, rgba(54,144,162,.34) 0%, rgba(54,144,162,0) 46%),
+      #163E48;}
+  .hero::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:180px;z-index:1;background:linear-gradient(180deg,rgba(22,62,72,0) 0%,var(--paper) 96%);pointer-events:none}
+  .hero-inner{position:relative;z-index:2;max-width:680px;margin:0 auto;padding:130px 28px 204px}
   .hero-moon{display:block;margin:0 auto 26px;filter:drop-shadow(0 0 13px rgba(245,246,242,.32))}
   .eyebrow{
     font-family:var(--serif-en);font-weight:500;font-style:italic;font-size:16px;letter-spacing:.34em;
@@ -111,7 +117,7 @@
 
   @media (max-width:760px){ .grid{grid-template-columns:1fr;gap:28px} }
   @media (max-width:480px){
-    .hero-inner{padding:84px 22px 160px}
+    .hero-inner{padding:92px 22px 188px}
     .wrap{padding:0 24px}
     .grid{grid-template-columns:1fr;gap:30px}
     .section-label .ja{display:none}
